@@ -4,13 +4,6 @@ import cv2
 import numpy as np
 from PIL import Image
 
-def make_square(image, min_size=40, fill_color=(0, 0, 0)):
-    x, y = image.size
-    size = max(min_size, x, y)
-    new_im = Image.new('RGB', (size, size), fill_color)
-    new_im.paste(image, (int((size - x) / 2), int((size - y) / 2)))
-    return new_im
-
 def image_separator(path_raw):
 
     raw_folder_path = path_raw
