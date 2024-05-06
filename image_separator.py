@@ -1,3 +1,10 @@
+
+'''
+CHECK IF RAW_DIR EXISTS. IF NOT QUIT
+'''
+
+
+
 import pandas 
 import os, os.path
 import cv2
