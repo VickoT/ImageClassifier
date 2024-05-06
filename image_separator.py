@@ -2,6 +2,7 @@ import pandas
 import os, os.path
 import cv2
 import numpy as np
+import shutil
 from PIL import Image
 
 def image_separator(path_raw):
@@ -23,7 +24,9 @@ def image_separator(path_raw):
     output_folder_path = os.path.join(parent_dir_path,output_dir)
     extract_folder_path= os.path.join(output_folder_path, "Extracted_images")
 
-    if not os.path.exists(output_folder_path): os.mkdir(output_folder_path)
+    # If Outputfolder exists: remove and create a new one
+    if os.path.exists(output_folder_path): shutil.rmtree(output_folder_path)
+    os.mkdir(output_folder_path)
     if not os.path.exists(extract_folder_path): os.mkdir(extract_folder_path)
 
     for dirpath, dirnames, filenames in os.walk(raw_folder_path):
@@ -51,5 +54,4 @@ def image_separator(path_raw):
                 cv2.imwrite(vp, img_sub)
 
 
-path = "/Users/vt2/Documents/Bioinf_LUND/Classifier/Raw_data/7-Pygsuia-day0-2"
-image_separator(path)
+
