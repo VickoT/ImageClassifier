@@ -46,12 +46,36 @@ def run_svm(raw_dir):
     # Define paths for predicted images
     parent_dir = os.path.dirname(raw_folder_path)
     output_dir = os.path.join(parent_dir,'Output_'+folder)
-    prediction_dir = os.path.join(output_dir, )
-    print(output_dir)
-    os.makedirs
+    path_imgs = os.path.join(output_dir,'Extracted_images')
+    prediction_dir = os.path.join(output_dir,'Predicted_images')
+    path_junk = os.path.join(prediction_dir,'Junk')
+    path_protist = os.path.join(prediction_dir,'Protist')
+    #os.makedirs(path_junk)
+    #os.makedirs(path_protist)
 
-    #extracted_images = os.path.join('Output_'+folder,'Extracted_images')
-    #path_imgs = os.path.join(parent_dir, extracted_images)
+    # Loop through files in the source directory
+    for file in os.listdir(path_imgs):
+        path_file = os.path.join(path_imgs, file)
 
-    path_junk = '/Users/vt2/Documents/Bioinf_LUND/Classifier/SVM_classifier/Predicted_images/Junk'
-    path_protist = '/Users/vt2/Documents/Bioinf_LUND/Classifier/SVM_classifier/Predicted_images/Protist'
+        # Assuming ID is correctly extracted from file name
+        ID = file.split('_')[1].split('.')[0]
+        # Extract prediction for the current ID
+        prediction_series = df2.loc[df2['Original Reference ID'] == ID, "Predictions"]
+
+        # Check if there is at least one prediction
+        if not prediction_series.empty:
+            prediction = prediction_series.iloc[0]  # Take the first prediction if there are multiple
+
+            # Decide the destination path based on the prediction
+            if prediction == 'Protist':
+                dest_path = os.path.join(path_protist, file)
+            elif prediction == 'Junk':
+                dest_path = os.path.join(path_junk, file)
+            else:
+                continue  # Skip if the prediction is not recognized
+
+            # Copy the file to the destination
+            shutil.copy(path_file, dest_path)
+
+
+
