@@ -5,15 +5,14 @@ import numpy as np
 import shutil
 from PIL import Image
 
-def image_separator(path_raw):
-
-    raw_folder_path = path_raw
+def image_separator(raw_dir):
 
     # Set directory to the path of the raw data files
     try:
-       os.chdir(raw_folder_path)
+       os.chdir(raw_dir)
+       raw_folder_path = os.getcwd()
     except:
-        print(f'Error:  {raw_folder_path} not found')
+        print(f'Error:  {raw_dir} not found')
 
     # Extract the name of the directory
     folder = raw_folder_path.split('/')[-1]
@@ -25,9 +24,14 @@ def image_separator(path_raw):
     extract_folder_path= os.path.join(output_folder_path, "Extracted_images")
 
     # If Outputfolder exists: remove and create a new one
-    if os.path.exists(output_folder_path): shutil.rmtree(output_folder_path)
+    if os.path.exists(output_folder_path):
+        shutil.rmtree(output_folder_path)
+        
     os.mkdir(output_folder_path)
-    if not os.path.exists(extract_folder_path): os.mkdir(extract_folder_path)
+
+    if not os.path.exists(extract_folder_path):
+        os.mkdir(extract_folder_path)
+        print(f"Output directory created: {extract_folder_path}")
 
     for dirpath, dirnames, filenames in os.walk(raw_folder_path):
         for filename in [f for f in filenames if f.endswith(".lst")]:
@@ -52,6 +56,7 @@ def image_separator(path_raw):
 
                 vp = os.path.join(sample_outpath, sample_name + "_" + meta["image_id"][i] + ".png")
                 cv2.imwrite(vp, img_sub)
+        print("Images extracted from collage files")
 
 
 
