@@ -1,32 +1,19 @@
 import os
 import pandas as pd
 import joblib
-
+from sklearn.preprocessing import StandardScaler
 import shutil
 
+def run_svm(path_raw, path_scaler, path_model, path_extracted_imgs, path_pred_junk, path_pred_protist):
 
-
-def run_svm(raw_dir):
-    # Path to current script
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    # Path to model and scaler
-    model_path = os.path.join(script_dir, 'svm_model.joblib')
-    scaler_path = os.path.join(script_dir, 'scaler.joblib')
-
-    try:
-       os.chdir(raw_dir)
-       raw_folder_path = os.getcwd()
-    except:
-        print(f'Error:  {raw_dir} not found')
-
-    folder = raw_folder_path.split('/')[-1]
+    folder = path_raw.split('/')[-1]
     csv_file = folder+'.csv'
 
     # Load dataset
     df = pd.read_csv(csv_file)
     # Load pre-trained model
-    svm_model = joblib.load(model_path)
-    scaler = joblib.load(scaler_path)
+    svm_model = joblib.load(path_model)
+    scaler = joblib.load(path_scaler)
 
     # Remove unwanted columns
     rm1 = ['Particle ID', 'Capture X', 'Capture Y', 'Date', 'Elapsed Time', 'Image File', 'Source Image', 'Time', 'Timestamp','Image X','Image Y']
@@ -43,19 +30,9 @@ def run_svm(raw_dir):
     # Attach predictions to df2 for visibility
     df2['Predictions'] = predictions
 
-    # Define paths for predicted images
-    parent_dir = os.path.dirname(raw_folder_path)
-    output_dir = os.path.join(parent_dir,'Output_'+folder)
-    path_imgs = os.path.join(output_dir,'Extracted_images')
-    prediction_dir = os.path.join(output_dir,'Predicted_images')
-    path_junk = os.path.join(prediction_dir,'Junk')
-    path_protist = os.path.join(prediction_dir,'Protist')
-    #os.makedirs(path_junk)
-    #os.makedirs(path_protist)
-
     # Loop through files in the source directory
-    for file in os.listdir(path_imgs):
-        path_file = os.path.join(path_imgs, file)
+    for file in os.listdir(path_extracted_imgs):
+        path_file = os.path.join(path_extracted_imgs, file)
 
         # Assuming ID is correctly extracted from file name
         ID = file.split('_')[1].split('.')[0]
@@ -68,14 +45,15 @@ def run_svm(raw_dir):
 
             # Decide the destination path based on the prediction
             if prediction == 'Protist':
-                dest_path = os.path.join(path_protist, file)
+                dest_path = os.path.join(path_pred_protist, file)
             elif prediction == 'Junk':
-                dest_path = os.path.join(path_junk, file)
+                dest_path = os.path.join(path_pred_junk, file)
             else:
                 continue  # Skip if the prediction is not recognized
 
             # Copy the file to the destination
             shutil.copy(path_file, dest_path)
 
+    print("Images predicted and sorted in 'Prediction' directory.")
 
-
+    print(df2['Predictions'].value_counts())

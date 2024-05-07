@@ -14,10 +14,17 @@ def main():
     raw_directory = args.raw_directory
 
 
-    dir_setup(raw_directory)
+    # Extract various path names
+    paths = dir_setup(raw_directory) 
+    path_raw = paths[0]
+    path_extracted_imgs = paths[1]
+    path_pred_junk = paths[2]
+    path_pred_protist = paths[3]
+    path_scaler = paths[4]
+    path_model = paths[5]
 
-    #image_separator(raw_directory)
-    #run_svm(raw_directory)
+    image_separator(path_raw, path_extracted_imgs)
+    run_svm(path_raw, path_scaler, path_model, path_extracted_imgs, path_pred_junk, path_pred_protist)
 
 if __name__ == "__main__":
     main()
