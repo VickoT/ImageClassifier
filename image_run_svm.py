@@ -6,7 +6,8 @@ import shutil
 
 def run_svm(path_raw, path_scaler, path_model, path_extracted_imgs, path_pred_junk, path_pred_protist):
 
-    folder = path_raw.split('/')[-1]
+    # Remove trailing slash and get the last component in one line
+    folder = os.path.basename(os.path.normpath(path_raw))
     csv_file = folder+'.csv'
 
     # Load dataset
