@@ -4,8 +4,6 @@ from dir_setup import dir_setup
 from image_separator import image_separator
 from image_run_svm import run_svm
 
-
-
 def main():
     parser = argparse.ArgumentParser(description="Separate images based on directory path.")
     parser.add_argument('-raw_dir', '--raw_directory', type=str, required=True,
@@ -13,8 +11,7 @@ def main():
     args = parser.parse_args()
     raw_directory = args.raw_directory
 
-
-    # Extract various path names
+    # Extract various path
     paths = dir_setup(raw_directory) 
     path_raw = paths[0]
     path_extracted_imgs = paths[1]
@@ -23,7 +20,9 @@ def main():
     path_scaler = paths[4]
     path_model = paths[5]
 
+    # Separat individual images from FlowCam collage tif files
     image_separator(path_raw, path_extracted_imgs)
+    # Prediction of images based on pretrained model
     run_svm(path_raw, path_scaler, path_model, path_extracted_imgs, path_pred_junk, path_pred_protist)
 
 if __name__ == "__main__":
