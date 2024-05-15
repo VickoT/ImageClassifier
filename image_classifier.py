@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 
-import pandas as pd
-import argparse
-from dir_setup import dir_setup
-from image_separator import image_separator
-from image_run_svm import run_svm
+try:
+    import pandas as pd
+    import argparse
+    from dir_setup import dir_setup
+    from image_separator import image_separator
+    from image_run_svm import run_svm
+except ModuleNotFoundError as e:
+    print(f"Error: {e}. \nPlease ensure the correct Python environment is activated. Run: 'conda activate image_classifier'")
+    exit(1)
 
 def main():
     parser = argparse.ArgumentParser(description="Separate images based on directory path.")
