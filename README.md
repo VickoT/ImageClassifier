@@ -20,3 +20,8 @@ conda activate image_classifier
 ```
 conda install pandas scikit-learn opencv
 ```
+
+* Add directory to path
+
+## Run ImageClassifier
+
