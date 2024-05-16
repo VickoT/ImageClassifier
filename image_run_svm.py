@@ -11,27 +11,24 @@ def run_svm(path_raw, path_scaler, path_model, path_extracted_imgs, path_pred_ju
     csv_file = folder+'.csv'
 
     # Load dataset
-    df = pd.read_csv(csv_file)
+    df2 = pd.read_csv(csv_file)
     # Load pre-trained model
-    svm_model = joblib.load(path_model)
-    scaler = joblib.load(path_scaler)
+    model = joblib.load(path_model)
 
-    # Remove unwanted columns
-    rm1 = ['Particle ID', 'Capture X', 'Capture Y', 'Date', 'Elapsed Time', 'Image File', 'Source Image', 'Time', 'Timestamp','Image X','Image Y']
-    rm2 = ['Diameter (ABD)','Convex Perimeter', 'Diameter (ESD)', 'Compactness', 'Geodesic Length', 'Geodesic Aspect Ratio']
-    df2 = df.drop(columns = rm1+rm2)
-    df2 = df2.drop(columns=[col for col in df2.columns if df2[col].nunique() == 1])
-
-    features = df2.select_dtypes(include=['number']).columns
-    df2_scaled = scaler.transform(df2[features])
+    # Feaures to select according to ANOVA features selection
+    features = ['Aspect Ratio', 'Average Red', 'Circle Fit', 'Circularity (Hu)',
+                'Edge Gradient', 'Fiber Curl', 'Geodesic Thickness',
+                'Particles Per Chain', 'Perimeter', 'Ratio Blue/Green',
+                'Ratio Red/Green', 'Roughness', 'Sigma Intensity', 'Sum Intensity',
+                'Transparency', 'Width']
 
     # Use the loaded model to make predictions
-    predictions = svm_model.predict(df2_scaled)
+    predictions = model.predict(df2[features])
 
     # Attach predictions to df2 for visibility
     df2['Predictions'] = predictions
 
-    # Loop through files in the source directory
+    # Loop through image files and move images to class directory
     for file in os.listdir(path_extracted_imgs):
         path_file = os.path.join(path_extracted_imgs, file)
 
@@ -52,7 +49,7 @@ def run_svm(path_raw, path_scaler, path_model, path_extracted_imgs, path_pred_ju
             else:
                 continue  # Skip if the prediction is not recognized
 
-            # Copy the file to the destination
+            # Move the file to the destination
             shutil.move(path_file, dest_path)
 
 

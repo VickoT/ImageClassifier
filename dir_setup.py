@@ -18,7 +18,8 @@ def dir_setup(raw_dir):
     path_predicted_protist = os.path.join(path_predicted_imgs, 'Protist') # path predicted protists
     path_script = os.path.dirname(os.path.abspath(__file__))
     path_scaler = os.path.join(path_script, 'scaler.joblib')
-    path_model = os.path.join(path_script, 'svm_model.joblib')
+    #path_model = os.path.join(path_script, 'svm_model.joblib')
+    path_model = os.path.join(path_script, 'gbc_model.joblib')
 
     # Remove previous output directory if it exists 
     if os.path.exists(path_output): 
