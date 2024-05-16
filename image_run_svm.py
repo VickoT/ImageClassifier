@@ -55,6 +55,9 @@ def run_svm(path_raw, path_scaler, path_model, path_extracted_imgs, path_pred_ju
             # Copy the file to the destination
             shutil.move(path_file, dest_path)
 
+
+    # Remove the directory from where the images were moved
+    os.rmdir(path_extracted_imgs)
     print("Images predicted and sorted in 'Prediction' directory.")
 
     print(df2['Predictions'].value_counts())
