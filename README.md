@@ -21,7 +21,19 @@ conda activate image_classifier
 conda install pandas scikit-learn opencv
 ```
 
-* Add directory to path
-
 ## Run ImageClassifier
 
+```
+conda activate image_classifier
+python \path\to\script\image_classifier.py -raw_dir example_dir
+```
+
+'Example dir' should contain the raw FlowCam output data (the script uses the tif files and the metadata csv file).
+
+The following directory will be generated after running the script, where the subdirectories 'Junk' and 'Protist' contains the images sorted into its corresponding class. 
+```
+└── Output_example_dir
+    └── Predicted_images
+        ├── Junk
+        └── Protist
+```
