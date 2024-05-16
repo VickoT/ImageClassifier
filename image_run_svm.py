@@ -53,7 +53,7 @@ def run_svm(path_raw, path_scaler, path_model, path_extracted_imgs, path_pred_ju
                 continue  # Skip if the prediction is not recognized
 
             # Copy the file to the destination
-            shutil.copy(path_file, dest_path)
+            shutil.move(path_file, dest_path)
 
     print("Images predicted and sorted in 'Prediction' directory.")
 
