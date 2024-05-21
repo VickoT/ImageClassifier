@@ -18,7 +18,8 @@ conda activate image_classifier
  * Install required modules:
 
 ```
-conda install pandas scikit-learn opencv
+conda install pandas scikit-learn
+pip install opencv-python
 ```
 
 ## Run ImageClassifier
