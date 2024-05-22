@@ -33,5 +33,16 @@ def dir_setup(raw_dir):
     os.mkdir(path_predicted_junk)
     os.mkdir(path_predicted_protist)
 
-    return path_raw, path_extracted_imgs, path_predicted_junk, path_predicted_protist, path_scaler, path_model
+    paths = {
+        'path_raw': path_raw,
+        'path_output': path_output,
+        'path_extracted_imgs': path_extracted_imgs,
+        'path_predicted_junk': path_predicted_junk,
+        'path_predicted_protist': path_predicted_protist,
+        'path_scaler': path_scaler,
+        'path_model': path_model
+        }
+    
+    return paths
+
 
