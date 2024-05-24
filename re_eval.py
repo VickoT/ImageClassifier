@@ -31,7 +31,7 @@ text_to_append = [
     "\nCategories",
     f"Junk: {count_junk}",
     f"Protist: {count_protist}",
-    f"\nConsentration (protists/ml): {count_protist/sample_volume_imaged:.2f}"
+    f"\nEstimated conc. (protists/ml): {count_protist/sample_volume_imaged:.2f}"
 ]
 
 with open('report.txt', 'a') as file:
