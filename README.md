@@ -42,7 +42,7 @@ The following directory will be generated after running the script, where the su
 
 #### Manual reclassification
 
-In case you are unsatisfied with the classification made by the classifier, you may reclassify the images manually. This is done by moving the images in the 'Predicted_images' directory into the folder you find suitable. Then run the script `re_eval.py` inside the **Output_example_dir**. 
+In case you are unsatisfied with the classification made by the classifier, you may reclassify the images manually. This is done by moving the images in the 'Predicted_images' directory into the folder you find suitable. Then run the script `re_eval.py` inside the **Output_example_dir**. The new stats will be appended to the report file:
 
 ```
  Report - 4-LRM1b-day0-1         (2024-05-24 10:00)
