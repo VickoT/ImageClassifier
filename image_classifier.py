@@ -32,6 +32,7 @@ def report_file(path_raw, path_output, path_pred_junk, path_pred_protist):
     with open (os.path.join(path_output, 'report.txt'), 'w') as report_file:
         for line in report_content:
             report_file.write(line + '\n')
+    print(f'Sample Volume Imaged (ml): {volume_imaged}')
     print(f'Estimated conc. (protists/ml): {count_protist/volume_imaged:.2f}')
     print("Report created in 'Output' directory")
 
