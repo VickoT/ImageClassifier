@@ -16,17 +16,32 @@ def run_svm(path_raw, path_scaler, path_model, path_extracted_imgs, path_pred_ju
     model = joblib.load(path_model)
 
     # Feaures to select according to ANOVA features selection
-    features = ['Aspect Ratio', 'Average Red', 'Circle Fit', 'Circularity (Hu)',
-                'Edge Gradient', 'Fiber Curl', 'Geodesic Thickness',
-                'Particles Per Chain', 'Perimeter', 'Ratio Blue/Green',
-                'Ratio Red/Green', 'Roughness', 'Sigma Intensity', 'Sum Intensity',
-                'Transparency', 'Width']
+   # features = ['Aspect Ratio', 'Average Red', 'Circle Fit', 'Circularity (Hu)',
+   #             'Edge Gradient', 'Fiber Curl', 'Geodesic Thickness',
+   #             'Particles Per Chain', 'Perimeter', 'Ratio Blue/Green',
+   #             'Ratio Red/Green', 'Roughness', 'Sigma Intensity', 'Sum Intensity',
+   #             'Transparency', 'Width']
 
+    # All features, for GBC with intrinsic feature selection
+    features = ['Area (ABD)', 'Area (Filled)', 'Aspect Ratio', 'Average Blue',
+                'Average Green', 'Average Red', 'Circle Fit', 'Circularity',
+                'Circularity (Hu)', 'Compactness', 'Convex Perimeter', 'Convexity',
+                'Diameter (ABD)', 'Diameter (ESD)', 'Diameter (FD)', 'Edge Gradient',
+                'Elongation', 'Feret Angle Max', 'Feret Angle Min', 'Fiber Curl',
+                'Fiber Straightness', 'Geodesic Aspect Ratio', 'Geodesic Length',
+                'Geodesic Thickness', 'Image Height', 'Image Width', 'Intensity',
+                'Length', 'Particles Per Chain', 'Perimeter', 'Ratio Blue/Green',
+                'Ratio Red/Blue', 'Ratio Red/Green', 'Roughness', 'Sigma Intensity',
+                'Sum Intensity', 'Symmetry', 'Transparency', 'Volume (ABD)',
+                'Volume (ESD)', 'Width']
     # Use the loaded model to make predictions
     predictions = model.predict(df2[features])
 
     # Attach predictions to df2 for visibility
     df2['Predictions'] = predictions
+    # Create the mapping dictionary
+    mapping = {1: 'Protist', 0: 'Junk'}
+    df2['Predictions'] = df2['Predictions'].map(mapping) 
 
     # Loop through image files and move images to class directory
     for file in os.listdir(path_extracted_imgs):
